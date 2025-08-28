@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql_db
+    ports:
+      - "1700:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpass
+      - MYSQL_DATABASE=login_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - login-net
+
+  backend:
+    build: ./backend
+    container_name: python-backend
+    volumes:
+      - ./backend:/app
+    networks:
+      - login-net
+    depends_on:
+      - mysql
+    environment:
+      - DB_HOST=mysql
+      - DB_USER=root
+      - DB_PASS=rootpass
+      - DB_NAME=login_db
+
+  frontend:
+    build: ./frontend
+    container_name: frontend-app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+    networks:
+      - login-net
+    depends_on:
+      - backend
+
+networks:
+  login-net:
+volumes:
+    mysql_data:
+
