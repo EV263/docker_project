@@ -33,7 +33,7 @@ services:
     build: ./frontend
     container_name: frontend-app
     ports:
-      - "8080:80"
+      - "9000:80"
     volumes:
       - ./frontend:/usr/share/nginx/html
     networks:
