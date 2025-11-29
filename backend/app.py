@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import mysql.connector
 from config import DB_CONFIG
-
+#first test
 app = Flask(__name__)
 
 def get_db_connection():
